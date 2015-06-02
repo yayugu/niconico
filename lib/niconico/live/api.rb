@@ -109,25 +109,7 @@ class Niconico
 
         if status['status'] == 'fail'
           error = page.at('error code').inner_text
-
-          case error
-          when 'notlogin'
-            return {error: :not_logged_in}
-          when 'comingsoon'
-            return {error: :not_yet_started}
-          when 'closed'
-            return {error: :closed}
-          when 'require_accept_print_timeshift_ticket'
-            return {error: :reservation_not_accepted}
-          when 'timeshift_ticket_expire'
-            return {error: :reservation_expired}
-          when 'noauth'
-            return {error: :archive_closed}
-          when 'notfound'
-            return {error: :not_found}
-          else
-            return {error: error}
-          end
+          return {error: error}
         end
 
         result = {}
