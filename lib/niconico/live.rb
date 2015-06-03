@@ -178,7 +178,7 @@ class Niconico
       end
     end
 
-    def rtmpdump_commands(file_base)
+    def rtmpdump_infos(file_base)
       file_base = File.expand_path(file_base)
 
       publishes = quesheet.select{ |_| /^\/publish / =~ _[:body] }.map do |publish|
@@ -186,7 +186,8 @@ class Niconico
       end
 
       plays = quesheet.select{ |_| /^\/play / =~ _[:body] }
- 
+
+      infos = []
       plays.flat_map.with_index do |play, i|
         cases = play[:body].sub(/^case:/,'').split(/ /)[1].split(/,/)
         publish_id = nil
@@ -198,7 +199,6 @@ class Niconico
         publish_id = publish_id.split(/:/).last
 
         contents = publishes.select{ |_| _[0] == publish_id }
-
         contents.map.with_index do |content, j|
           content = content[1]
           rtmp = "#{self.rtmp_url}/mp4:#{content}"
@@ -208,15 +208,14 @@ class Niconico
             file = "#{file_base}.#{i}.#{j}.#{seq}.flv"
             seq += 1
           end while File.exist?(file)
-
-          ['rtmpdump',
-           '-V',
-           '-o', file,
-           '-r', rtmp,
-           '-C', "S:#{ticket}",
-           '--playpath', "mp4:#{content}",
-           '--app', URI.parse(self.rtmp_url).path.sub(/^\//,'')
-          ]
+        app = URI.parse(self.rtmp_url).path.sub(/^\//,'')
+        infos << {
+          file_path: file,
+          rtmp_url: rtmp,
+          ticket: ticket,
+          content: content,
+          app: app
+        }
         end
       end
     end
