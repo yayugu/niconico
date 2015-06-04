@@ -170,8 +170,6 @@ class Niconico
       def accept_watching_reservation(id_)
         id = Util::normalize_id(id_, with_lv: false)
 
-        page = agent.get("http://live.nicovideo.jp/api/watchingreservation?mode=watch_num&vid=#{id}&next_url&analytic")
-
         token = Util::fetch_token(@agent)
         page = agent.post("http://live.nicovideo.jp/api/watchingreservation",
                           mode: 'auto_register', vid: id, token: token, '_' => '')
