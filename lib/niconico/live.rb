@@ -80,7 +80,10 @@ class Niconico
       result = @client.accept_watching_reservation(self.id)
       raise AcceptingReservationFailed unless result
 
-      get(:reload)
+      sleep 3
+
+      # reload
+      get(true)
 
       self
     end
