@@ -217,6 +217,7 @@ class Niconico
           app: app
         }
         end
+      infos
       end
     end
   end
