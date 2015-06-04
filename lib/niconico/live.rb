@@ -208,14 +208,14 @@ class Niconico
             file = "#{file_base}.#{i}.#{j}.#{seq}.flv"
             seq += 1
           end while File.exist?(file)
-        app = URI.parse(self.rtmp_url).path.sub(/^\//,'')
-        infos << {
-          file_path: file,
-          rtmp_url: rtmp,
-          ticket: ticket,
-          content: content,
-          app: app
-        }
+          app = URI.parse(self.rtmp_url).path.sub(/^\//,'')
+          infos << {
+            file_path: file,
+            rtmp_url: rtmp,
+            ticket: ticket,
+            content: content,
+            app: app
+          }
         end
       infos
       end
