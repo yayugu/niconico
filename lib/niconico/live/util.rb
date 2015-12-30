@@ -15,7 +15,6 @@ class Niconico
         # タイムシフト予約が存在する場合にのみ取得できる
         def fetch_token(agent)
           page = agent.get('http://live.nicovideo.jp/my_timeshift_list')
-          puts page.body
           token_tag = page.at('#confirm')
           token_tag ? token_tag.attr('value') : nil
         end
