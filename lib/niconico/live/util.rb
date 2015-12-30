@@ -12,9 +12,18 @@ class Niconico
           end
         end
 
+        # タイムシフト予約が存在する場合にのみ取得できる
         def fetch_token(agent)
-          page = agent.get('http://live.nicovideo.jp/my')
-          page.at('#confirm').attr('value')
+          page = agent.get('http://live.nicovideo.jp/my_timeshift_list')
+          puts page.body
+          token_tag = page.at('#confirm')
+          token_tag ? token_tag.attr('value') : nil
+        end
+
+        def fetch_token_for_watching_reservation(agent, id)
+          id = normalize_id(id_, with_lv: false)
+          page = agent.get("http://live.nicovideo.jp/api/watchingreservation?mode=watch_num&vid=#{id}&next_url=")
+          page.body.match(/ulck_[0-9]+/)[0]
         end
       end
     end
