@@ -20,7 +20,7 @@ class Niconico
         end
 
         def fetch_token_for_watching_reservation(agent, id)
-          id = normalize_id(id_, with_lv: false)
+          id = normalize_id(id, with_lv: false)
           page = agent.get("http://live.nicovideo.jp/api/watchingreservation?mode=watch_num&vid=#{id}&next_url=")
           page.body.match(/ulck_[0-9]+/)[0]
         end
