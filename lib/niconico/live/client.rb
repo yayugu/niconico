@@ -47,7 +47,7 @@ class Niconico
         search_results = items.map do |item|
           title_dom = item.at('.search_stream_title a')
           next nil unless title_dom
-          id = title_dom.attr(:href).scan(/lv[\d]+/).first
+          id = Util::normalize_id(title_dom.attr(:href).scan(/lv[\d]+/).first, with_lv: false)
           title = title_dom.text.strip
           description = item.at('.search_stream_description').text.strip
           SearchResult.new(id, title, description)
